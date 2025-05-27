@@ -25,12 +25,11 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${geist.variable}`}>
-      <body>
+      <body className="flex h-screen">
         <TRPCReactProvider>
           <SidebarProvider>
-            <AppSidebar>
-              <main className="flex-1 pl-64 lg:pl-72">{children}</main>
-            </AppSidebar>
+            <AppSidebar></AppSidebar>
+            <main className="flex-1 pl-64 lg:pl-72">{children}</main>
           </SidebarProvider>
         </TRPCReactProvider>
       </body>

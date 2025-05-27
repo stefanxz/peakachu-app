@@ -14,16 +14,17 @@ import { Home, Zap, Bolt, BrainCircuit, Brain } from "lucide-react";
 import Logo from "@/app/pics/logo.svg"; // Adjust the path as necessary
 import Image from "next/image";
 import { SidebarToggleButton } from "./SideBarToggleButton";
+import Link from "next/link";
 
 type AppSidebarProps = {
   children?: React.ReactNode;
 };
 export function AppSidebar({ children }: AppSidebarProps) {
   const items = [
-    { title: "Home", url: "#", icon: Home },
-    { title: "Pichu", url: "#", icon: Bolt },
-    { title: "Pikachu", url: "#", icon: Zap },
-    { title: "Raichu", url: "#", icon: BrainCircuit },
+    { title: "Home", url: "/", icon: Home },
+    { title: "Pichu", url: "/pichu", icon: Bolt },
+    { title: "Pikachu", url: "/pikachu", icon: Zap },
+    { title: "Raichu", url: "/raichu", icon: BrainCircuit },
   ];
   return (
     <Sidebar collapsible="icon">
@@ -38,10 +39,10 @@ export function AppSidebar({ children }: AppSidebarProps) {
             {items.map((item) => (
               <SidebarMenuItem key={item.title}>
                 <SidebarMenuButton asChild>
-                  <a href={item.url}>
+                  <Link href={item.url}>
                     <item.icon />
                     <span>{item.title}</span>
-                  </a>
+                  </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             ))}
@@ -51,8 +52,10 @@ export function AppSidebar({ children }: AppSidebarProps) {
           </SidebarMenu>
         </SidebarGroupContent>
         <SidebarGroup />
+        <SidebarFooter className="fixed bottom-0 px-4 py-2 text-center text-xs">
+          © 2025 Peakachu
+        </SidebarFooter>
       </SidebarContent>
-      <SidebarFooter />
     </Sidebar>
   );
 }
