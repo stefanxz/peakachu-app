@@ -1,5 +1,5 @@
 import { postRouter } from "@/server/api/routers/post";
-import { peakRouter } from "@/server/api/routers/peak";
+import { peakRouter } from "@/server/api/routers/peak-router";
 import { createCallerFactory, createTRPCRouter } from "@/server/api/trpc";
 
 /**

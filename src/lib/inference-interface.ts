@@ -1,7 +1,8 @@
+import type { JDXFile } from "./jdx-parser";
 
 
 export async function inferModel(
-  jdxData: JDXData, 
+  jdxFile: JDXFile, 
   modelType: string,
   confidenceThreshold: number
 ) {

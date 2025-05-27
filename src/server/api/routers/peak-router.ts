@@ -1,15 +1,15 @@
 import { z } from "zod";
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import { createTRPCRouter, publicProcedure } from "src/server/api/trpc";
 import { TRPCError } from "@trpc/server";
 import { 
   analysisRequestSchema,
   analysisResultSchema,
   batchAnalysisResultSchema,
-  modelTypeSchema 
-} from "~/lib/schemas.ts";
-import { parseJDXFile } from "~/lib/jdx-parser";
-import { MODEL_REGISTRY } from "~/lib/model-info";
-import { runPyTorchModel } from "~/lib/pytorch-interface";
+  modelTypeSchema
+} from "src/lib/schemas";
+import { parseJDXFile } from "src/lib/jdx-parser";
+import { MODEL_REGISTRY } from "src/lib/model-info";
+import { inferModel } from "src/lib/inference-interface";
 
 export const peakRouter = createTRPCRouter({
   // Get all available models with metadata
@@ -19,18 +19,18 @@ export const peakRouter = createTRPCRouter({
       ...info
     }));
     
-    // Group models by category for easier UI organization
-    const groupedModels = models.reduce((acc, model) => {
-      if (!acc[model.category]) {
-        acc[model.category] = [];
-      }
-      acc[model.category].push(model);
-      return acc;
-    }, {} as Record<string, typeof models>);
+    // // Group models by category for easier UI organization
+    // const groupedModels = models.reduce((acc, model) => {
+    //   if (!acc[model.category]) {
+    //     acc[model.category] = [];
+    //   }
+    //   acc[model.category].push(model);
+    //   return acc;
+    // }, {} as Record<string, typeof models>);
     
     return {
       models,
-      groupedModels,
+      // groupedModels,
       totalModels: models.length
     };
   }),
@@ -47,18 +47,22 @@ export const peakRouter = createTRPCRouter({
         const jdxData = parseJDXFile(input.file.content);
         
         // Get model info
-        const modelInfo = MODEL_REGISTRY[input.modelType];
+        const modelType = input.modelTypes[0];
+        if (!modelType) {
+          throw new Error("No model type provided.");
+}
+        const modelInfo = MODEL_REGISTRY[modelType];
         if (!modelInfo) {
-          throw new Error(`Unknown model type: ${input.modelType}`);
+          throw new Error(`Unknown model type: ${input.modelTypes}`);
         }
         
         // Run PyTorch model
-        const analysis = await runPyTorchModel(jdxData, input.modelType, input.confidence_threshold);
+        const analysis = await inferModel(jdxData, modelType, input.confidence_threshold);
         
         const processingTime = Date.now() - startTime;
         
         return {
-          modelType: input.modelType,
+          modelType: modelType,
           modelInfo,
           predictions: analysis.predictions,
           overall_confidence: analysis.overall_confidence,
@@ -99,7 +103,7 @@ export const peakRouter = createTRPCRouter({
             continue;
           }
           
-          const analysis = await runPyTorchModel(jdxData, modelType, input.confidence_threshold);
+          const analysis = await inferModel(jdxData, modelType, input.confidence_threshold);
           
           results.push({
             modelType,
@@ -160,18 +164,18 @@ export const peakRouter = createTRPCRouter({
         return {
           valid: true,
           metadata: {
-            title: jdxData.title,
-            dataType: jdxData.dataType,
-            xUnits: jdxData.xUnits,
-            yUnits: jdxData.yUnits,
-            nPoints: jdxData.nPoints,
+            title: jdxData.metadata.title,
+            dataType: jdxData.metadata.dataType,
+            xUnits: jdxData.metadata.xUnits,
+            yUnits: jdxData.metadata.yUnits,
+            nPoints: jdxData.metadata.nPoints,
             xRange: { 
-              min: Math.min(...jdxData.xData), 
-              max: Math.max(...jdxData.xData) 
+              min: jdxData.metadata.firstX,
+              max: jdxData.metadata.lastX
             },
             yRange: { 
-              min: Math.min(...jdxData.yData), 
-              max: Math.max(...jdxData.yData) 
+              min: jdxData.metadata.minY, 
+              max: jdxData.metadata.maxY 
             }
           }
         };
@@ -213,7 +217,7 @@ primaryChoice: publicProcedure
       const modelType = "0_model_extended";
       const modelInfo = MODEL_REGISTRY[modelType];
       if (!modelInfo) throw new Error(`Unknown model type: ${modelType}`);
-      const analysis = await runPyTorchModel(jdxData, modelType, input.confidence_threshold);
+      const analysis = await inferModel(jdxData, modelType, input.confidence_threshold);
       return {
         modelType,
         modelInfo,
@@ -245,7 +249,7 @@ robustChoice: publicProcedure
       const modelType = "100_model_vertical";
       const modelInfo = MODEL_REGISTRY[modelType];
       if (!modelInfo) throw new Error(`Unknown model type: ${modelType}`);
-      const analysis = await runPyTorchModel(jdxData, modelType, input.confidence_threshold);
+      const analysis = await inferModel(jdxData, modelType, input.confidence_threshold);
       return {
         modelType,
         modelInfo,
@@ -277,7 +281,7 @@ precisionChoice: publicProcedure
       const modelType = "0_model_weighted";
       const modelInfo = MODEL_REGISTRY[modelType];
       if (!modelInfo) throw new Error(`Unknown model type: ${modelType}`);
-      const analysis = await runPyTorchModel(jdxData, modelType, input.confidence_threshold);
+      const analysis = await inferModel(jdxData, modelType, input.confidence_threshold);
       return {
         modelType,
         modelInfo,
