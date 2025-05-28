@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import {
   ResizableHandle,
   ResizablePanel,
@@ -19,11 +20,16 @@ export default function ModelCard({
   image,
 }: ModelCardProps) {
   return (
-    <div className="max-w-md overflow-hidden rounded-lg border">
+    <div className="m-10 max-w-md overflow-hidden rounded-lg border">
       <ResizablePanelGroup direction="horizontal">
         <ResizablePanel defaultSize={50}>
           <div className="flex h-[200px] items-center justify-center p-6">
-            <img src={image} alt={name} className="h-full object-contain" />
+            <Image
+              src={image}
+              alt={name}
+              fill
+              style={{ objectFit: "contain" }}
+            />
           </div>
         </ResizablePanel>
         <ResizableHandle />
