@@ -34,22 +34,26 @@ export function ModelUploader({ model, onFileSelect }: ModelUploaderProps) {
   });
 
   return (
-    <Card className="pt-4">
+    <Card className="border-yellow-200 pt-4 shadow-sm transition-all hover:border-yellow-300 hover:shadow-md">
       <CardHeader>
-        <CardTitle>{model.name}</CardTitle>
+        <CardTitle className="text-yellow-600">{model.name}</CardTitle>
       </CardHeader>
-      <CardContent>
-        <p className="mb-4">{model.description}</p>
-        <ul className="mb-4 list-disc pl-5">
-          {model.capabilities.map((cap, idx) => (
-            <li key={idx}>{cap}</li>
-          ))}
-        </ul>
+      <CardContent className="flex flex-col gap-6">
+        <div>
+          <p className="mb-4">{model.description}</p>
+          <ul className="list-disc pl-5 marker:text-yellow-500">
+            {model.capabilities.map((cap, idx) => (
+              <li key={idx}>{cap}</li>
+            ))}
+          </ul>
+        </div>
 
         <div
           {...getRootProps()}
-          className={`cursor-pointer rounded-lg border-2 border-dashed p-6 text-center transition-colors duration-150 ${
-            isDragActive ? "border-blue-500 bg-blue-50" : "border-gray-200"
+          className={`my-8 cursor-pointer rounded-lg border-2 border-dashed p-8 text-center transition-colors duration-150 ${
+            isDragActive
+              ? "border-yellow-400 bg-yellow-50"
+              : "border-yellow-200 hover:border-yellow-300"
           }`}
         >
           <input {...getInputProps()} />
@@ -57,7 +61,8 @@ export function ModelUploader({ model, onFileSelect }: ModelUploaderProps) {
             <p className="text-sm font-medium">Selected: {file.name}</p>
           ) : (
             <p className="text-sm text-gray-600">
-              Drag & drop a <code>.jdx</code> or <code>.dx</code> file here,
+              Drag & drop a <code className="text-yellow-600">.jdx</code> or{" "}
+              <code className="text-yellow-600">.dx</code> file here,
               <br /> or click to browse
             </p>
           )}
@@ -66,7 +71,7 @@ export function ModelUploader({ model, onFileSelect }: ModelUploaderProps) {
         {file && (
           <Button
             variant="secondary"
-            className="mt-4"
+            className="mt-4 border-yellow-200 bg-yellow-50 hover:bg-yellow-100"
             onClick={() => {
               setFile(null);
               onFileSelect?.(null as any);

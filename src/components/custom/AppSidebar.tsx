@@ -10,7 +10,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { Home, Zap, Bolt, BrainCircuit, Brain } from "lucide-react";
+import { Home, Zap, Bolt, BrainCircuit, Brain, BarChart3 } from "lucide-react";
 import Logo from "@/app/pics/logo.svg"; // Adjust the path as necessary
 import Image from "next/image";
 import { SidebarToggleButton } from "./SideBarToggleButton";
@@ -25,6 +25,7 @@ export function AppSidebar({ children }: AppSidebarProps) {
     { title: "Pichu", url: "/pichu", icon: Bolt },
     { title: "Pikachu", url: "/pikachu", icon: Zap },
     { title: "Raichu", url: "/raichu", icon: BrainCircuit },
+    { title: "Dashboard", url: "/dashboard", icon: BarChart3 },
   ];
   return (
     <Sidebar collapsible="icon">

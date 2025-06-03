@@ -273,8 +273,8 @@ const ModelEvaluationDashboard: React.FC = () => {
   ];
 
   return (
-    <div className="mx-auto min-h-screen max-w-7xl bg-gradient-to-br from-yellow-400 to-yellow-600 p-6">
-      <div className="rounded-3xl bg-white/95 p-8 shadow-2xl backdrop-blur-sm">
+    <div className="w-full">
+      <div className="rounded-xl bg-white/95 shadow-lg">
         <h1 className="mb-2 bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-center text-4xl font-bold text-transparent">
           Functional Group Classification Model
         </h1>
@@ -284,26 +284,26 @@ const ModelEvaluationDashboard: React.FC = () => {
 
         {/* Metric Summary Cards */}
         <div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-4">
-          <div className="rounded-2xl bg-gradient-to-r from-yellow-400 to-yellow-600 p-6 text-center text-white shadow-lg">
+          <div className="rounded-xl bg-gradient-to-r from-yellow-400 to-yellow-600 p-6 text-center text-white shadow-lg">
             <div className="mb-1 text-3xl font-bold">0.752</div>
             <div className="text-sm opacity-90">Average F1-Score</div>
           </div>
-          <div className="rounded-2xl bg-gradient-to-r from-yellow-400 to-yellow-600 p-6 text-center text-white shadow-lg">
+          <div className="rounded-xl bg-gradient-to-r from-yellow-400 to-yellow-600 p-6 text-center text-white shadow-lg">
             <div className="mb-1 text-3xl font-bold">0.914</div>
             <div className="text-sm opacity-90">Average Precision</div>
           </div>
-          <div className="rounded-2xl bg-gradient-to-r from-yellow-400 to-yellow-600 p-6 text-center text-white shadow-lg">
+          <div className="rounded-xl bg-gradient-to-r from-yellow-400 to-yellow-600 p-6 text-center text-white shadow-lg">
             <div className="mb-1 text-3xl font-bold">0.695</div>
             <div className="text-sm opacity-90">Average Recall</div>
           </div>
-          <div className="rounded-2xl bg-gradient-to-r from-yellow-400 to-yellow-600 p-6 text-center text-white shadow-lg">
+          <div className="rounded-xl bg-gradient-to-r from-yellow-400 to-yellow-600 p-6 text-center text-white shadow-lg">
             <div className="mb-1 text-3xl font-bold">56.8%</div>
             <div className="text-sm opacity-90">Overall EMR</div>
           </div>
         </div>
 
         {/* Controls */}
-        <div className="mb-6 rounded-2xl bg-white p-6 shadow-lg">
+        <div className="mb-6 rounded-xl bg-white p-6 shadow-lg">
           <div className="flex flex-col gap-6 md:flex-row">
             <div className="flex items-center gap-4">
               <label className="min-w-[120px] font-semibold text-gray-700">
@@ -314,7 +314,7 @@ const ModelEvaluationDashboard: React.FC = () => {
                 onChange={(e) =>
                   setSortMetric(e.target.value as keyof PerformanceData)
                 }
-                className="rounded-lg border-2 border-gray-200 bg-white px-4 py-2 text-sm transition-colors focus:border-indigo-500 focus:outline-none"
+                className="rounded-lg border-2 border-gray-200 bg-white px-4 py-2 text-sm transition-colors focus:border-yellow-500 focus:outline-none"
               >
                 <option value="f1">F1-Score</option>
                 <option value="precision">Precision</option>
@@ -344,9 +344,9 @@ const ModelEvaluationDashboard: React.FC = () => {
         </div>
 
         {/* Charts Grid */}
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <div className="grid grid-cols-1 gap-6 p-6 lg:grid-cols-2">
           {/* Performance Chart */}
-          <div className="rounded-2xl bg-white p-6 shadow-lg transition-shadow hover:shadow-xl">
+          <div className="rounded-xl bg-white p-6 shadow-lg transition-shadow hover:shadow-xl">
             <h3 className="mb-4 text-center text-xl font-semibold text-gray-800">
               Performance Metrics by Functional Group
             </h3>
@@ -360,6 +360,8 @@ const ModelEvaluationDashboard: React.FC = () => {
                 font: { size: 11 },
                 showlegend: true,
                 legend: { orientation: "h", y: -0.3 },
+                paper_bgcolor: "transparent",
+                plot_bgcolor: "transparent",
                 autosize: true,
               }}
               config={{ responsive: true }}
@@ -368,7 +370,7 @@ const ModelEvaluationDashboard: React.FC = () => {
           </div>
 
           {/* Frequency Chart */}
-          <div className="rounded-2xl bg-white p-6 shadow-lg transition-shadow hover:shadow-xl">
+          <div className="rounded-xl bg-white p-6 shadow-lg transition-shadow hover:shadow-xl">
             <h3 className="mb-4 text-center text-xl font-semibold text-gray-800">
               Frequency vs Performance
             </h3>
@@ -382,6 +384,8 @@ const ModelEvaluationDashboard: React.FC = () => {
                 yaxis: { title: { text: "F1-Score" }, range: [0, 1] },
                 hovermode: "closest",
                 margin: { t: 20, b: 60, l: 60, r: 20 },
+                paper_bgcolor: "transparent",
+                plot_bgcolor: "transparent",
                 autosize: true,
               }}
               config={{ responsive: true }}
@@ -390,7 +394,7 @@ const ModelEvaluationDashboard: React.FC = () => {
           </div>
 
           {/* Precision Recall Chart */}
-          <div className="rounded-2xl bg-white p-6 shadow-lg transition-shadow hover:shadow-xl">
+          <div className="rounded-xl bg-white p-6 shadow-lg transition-shadow hover:shadow-xl">
             <h3 className="mb-4 text-center text-xl font-semibold text-gray-800">
               Precision vs Recall Trade-off
             </h3>
@@ -400,6 +404,8 @@ const ModelEvaluationDashboard: React.FC = () => {
                 xaxis: { title: { text: "Recall" }, range: [0, 1] },
                 yaxis: { title: { text: "Precision" }, range: [0, 1] },
                 margin: { t: 20, b: 60, l: 60, r: 20 },
+                paper_bgcolor: "transparent",
+                plot_bgcolor: "transparent",
                 autosize: true,
                 shapes: [
                   {
@@ -418,7 +424,7 @@ const ModelEvaluationDashboard: React.FC = () => {
           </div>
 
           {/* EMR Chart */}
-          <div className="rounded-2xl bg-white p-6 shadow-lg transition-shadow hover:shadow-xl">
+          <div className="rounded-xl bg-white p-6 shadow-lg transition-shadow hover:shadow-xl">
             <h3 className="mb-4 text-center text-xl font-semibold text-gray-800">
               Exact Match Rate by # of FGs
             </h3>
@@ -434,6 +440,8 @@ const ModelEvaluationDashboard: React.FC = () => {
                 },
                 legend: { orientation: "h", y: -0.2 },
                 margin: { t: 20, b: 80, l: 60, r: 60 },
+                paper_bgcolor: "transparent",
+                plot_bgcolor: "transparent",
                 autosize: true,
               }}
               config={{ responsive: true }}
@@ -442,7 +450,7 @@ const ModelEvaluationDashboard: React.FC = () => {
           </div>
 
           {/* Accuracy Chart - Full Width */}
-          <div className="rounded-2xl bg-white p-6 shadow-lg transition-shadow hover:shadow-xl lg:col-span-2">
+          <div className="rounded-xl bg-white p-6 shadow-lg transition-shadow hover:shadow-xl lg:col-span-2">
             <h3 className="mb-4 text-center text-xl font-semibold text-gray-800">
               Presence vs Absence Accuracy
             </h3>
@@ -456,6 +464,8 @@ const ModelEvaluationDashboard: React.FC = () => {
                 font: { size: 10 },
                 showlegend: true,
                 legend: { orientation: "h", y: -0.25 },
+                paper_bgcolor: "transparent",
+                plot_bgcolor: "transparent",
                 autosize: true,
               }}
               config={{ responsive: true }}
