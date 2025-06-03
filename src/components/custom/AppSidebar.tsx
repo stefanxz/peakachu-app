@@ -11,7 +11,7 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { Home, Zap, Bolt, BrainCircuit, Brain, BarChart3 } from "lucide-react";
-import Logo from "@/app/pics/logo.svg"; // Adjust the path as necessary
+import Logo from "@/app/pics/logo.png"; // Adjust the path as necessary
 import Image from "next/image";
 import { SidebarToggleButton } from "./SideBarToggleButton";
 import Link from "next/link";
