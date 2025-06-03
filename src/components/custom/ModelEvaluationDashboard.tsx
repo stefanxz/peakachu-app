@@ -275,7 +275,7 @@ const ModelEvaluationDashboard: React.FC = () => {
   return (
     <div className="w-full">
       <div className="rounded-xl bg-white/95 shadow-lg">
-        <h1 className="mb-2 bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-center text-4xl font-bold text-transparent">
+        <h1 className="mb-2 text-center text-4xl font-bold text-yellow-600">
           Functional Group Classification Model
         </h1>
         <p className="mb-8 text-center text-xl text-gray-600">

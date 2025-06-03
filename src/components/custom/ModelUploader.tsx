@@ -2,6 +2,13 @@ import React, { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { AnalysisResults, type AnalysisResult } from "./AnalysisResults";
+
+const API_ENDPOINTS = {
+  pichu: "https://api.peakachu.ai/v1/pichu/analyze",
+  pikachu: "https://api.peakachu.ai/v1/pikachu/analyze",
+  raichu: "https://api.peakachu.ai/v1/raichu/analyze",
+};
 
 export type Model = {
   name: string;
@@ -16,12 +23,57 @@ type ModelUploaderProps = {
 
 export function ModelUploader({ model, onFileSelect }: ModelUploaderProps) {
   const [file, setFile] = useState<File | null>(null);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [analysisResults, setAnalysisResults] = useState<AnalysisResult | null>(
+    null,
+  );
+
+  const analyzeFile = async (file: File) => {
+    setIsAnalyzing(true);
+    try {
+      const formData = new FormData();
+      // Extract model name without .pt extension (already handled in the model prop)
+      formData.append("model", model.name.toLowerCase());
+      formData.append("file", file);
+
+      const response = await fetch("http://127.0.0.1:5000/predict", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      // Transform the API response into our AnalysisResult format
+      const analysisResult: AnalysisResult = {
+        functionalGroups: data.predictions.map(
+          (prediction: number, index: number) => ({
+            name: `Group ${index + 1}`,
+            confidence: prediction,
+          }),
+        ),
+        modelConfidence: Math.max(...data.predictions),
+      };
+
+      setAnalysisResults(analysisResult);
+    } catch (error) {
+      console.error("Error analyzing file:", error);
+      // You might want to add error handling UI here
+    } finally {
+      setIsAnalyzing(false);
+    }
+  };
 
   const onDrop = useCallback(
-    (acceptedFiles: File[]) => {
+    async (acceptedFiles: File[]) => {
       if (acceptedFiles.length > 0) {
-        setFile(acceptedFiles[0]!);
-        onFileSelect?.(acceptedFiles[0]!);
+        const selectedFile = acceptedFiles[0]!;
+        setFile(selectedFile);
+        onFileSelect?.(selectedFile);
+        await analyzeFile(selectedFile);
       }
     },
     [onFileSelect],
@@ -32,6 +84,12 @@ export function ModelUploader({ model, onFileSelect }: ModelUploaderProps) {
     accept: { "chemical/x-jdx": [".jdx", ".dx"] },
     multiple: false,
   });
+
+  const handleClear = () => {
+    setFile(null);
+    setAnalysisResults(null);
+    onFileSelect?.(null as any);
+  };
 
   return (
     <Card className="border-yellow-200 pt-4 shadow-sm transition-all hover:border-yellow-300 hover:shadow-md">
@@ -72,13 +130,17 @@ export function ModelUploader({ model, onFileSelect }: ModelUploaderProps) {
           <Button
             variant="secondary"
             className="mt-4 border-yellow-200 bg-yellow-50 hover:bg-yellow-100"
-            onClick={() => {
-              setFile(null);
-              onFileSelect?.(null as any);
-            }}
+            onClick={handleClear}
           >
             Clear File
           </Button>
+        )}
+
+        {(isAnalyzing || analysisResults) && (
+          <AnalysisResults
+            results={analysisResults as AnalysisResult}
+            isLoading={isAnalyzing}
+          />
         )}
       </CardContent>
     </Card>
