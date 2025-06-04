@@ -22,9 +22,9 @@ type AppSidebarProps = {
 export function AppSidebar({ children }: AppSidebarProps) {
   const items = [
     { title: "Home", url: "/", icon: Home },
-    { title: "Pichu", url: "/pichu", icon: Bolt },
-    { title: "Pikachu", url: "/pikachu", icon: Zap },
-    { title: "Raichu", url: "/raichu", icon: BrainCircuit },
+    { title: "Pichu", url: "/models/pichu", icon: Bolt },
+    { title: "Pikachu", url: "/models/pikachu", icon: Zap },
+    { title: "Raichu", url: "/models/raichu", icon: BrainCircuit },
     { title: "Dashboard", url: "/dashboard", icon: BarChart3 },
   ];
   return (

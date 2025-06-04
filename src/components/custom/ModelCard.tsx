@@ -2,6 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import {
   ResizableHandle,
   ResizablePanel,
@@ -19,31 +20,35 @@ export default function ModelCard({
   description,
   image,
 }: ModelCardProps) {
+  const modelPath = name.toLowerCase();
+
   return (
-    <div className="m-10 max-w-md overflow-hidden rounded-lg border border-yellow-200 shadow-sm transition-all hover:border-yellow-300 hover:shadow-md">
-      <ResizablePanelGroup direction="horizontal">
-        <ResizablePanel defaultSize={50}>
-          <div className="relative flex h-[200px] items-center justify-center p-6">
-            <Image
-              src={image}
-              alt={name}
-              width={150}
-              height={150}
-              style={{ objectFit: "contain" }}
-              className="max-h-full max-w-full"
-            />
-          </div>
-        </ResizablePanel>
-        <ResizableHandle className="bg-yellow-200 hover:bg-yellow-300" />
-        <ResizablePanel defaultSize={50}>
-          <div className="p-6">
-            <h3 className="mb-2 text-xl font-semibold text-yellow-600">
-              {name}
-            </h3>
-            <p className="text-muted-foreground text-sm">{description}</p>
-          </div>
-        </ResizablePanel>
-      </ResizablePanelGroup>
-    </div>
+    <Link href={`/models/${modelPath}`} className="block">
+      <div className="m-10 max-w-md cursor-pointer overflow-hidden rounded-lg border border-yellow-200 shadow-sm transition-all hover:border-yellow-300 hover:shadow-md">
+        <ResizablePanelGroup direction="horizontal">
+          <ResizablePanel defaultSize={50}>
+            <div className="relative flex h-[200px] items-center justify-center p-6">
+              <Image
+                src={image}
+                alt={name}
+                width={150}
+                height={150}
+                style={{ objectFit: "contain" }}
+                className="max-h-full max-w-full"
+              />
+            </div>
+          </ResizablePanel>
+          <ResizableHandle className="bg-yellow-200 hover:bg-yellow-300" />
+          <ResizablePanel defaultSize={50}>
+            <div className="p-6">
+              <h3 className="mb-2 text-xl font-semibold text-yellow-600">
+                {name}
+              </h3>
+              <p className="text-muted-foreground text-sm">{description}</p>
+            </div>
+          </ResizablePanel>
+        </ResizablePanelGroup>
+      </div>
+    </Link>
   );
 }
