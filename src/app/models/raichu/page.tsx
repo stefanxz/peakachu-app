@@ -1,27 +1,44 @@
 "use client";
-import { ModelUploader } from "@/components/custom/ModelUploader";
+import { ModelUploader, type Model } from "@/components/custom/ModelUploader";
+import { Button } from "@/components/ui/button";
+import { Home } from "lucide-react";
+import Link from "next/link";
 import React from "react";
 
-const raichuModel = {
+const RaichuModel: Model = {
   name: "Raichu",
   description:
-    "A robust model trained with heavy noise augmentation to simulate real-world conditions. Optimized for spectra with peak distortion, baseline drift, or instrumentation variability.",
+    "Our most powerful model, combining advanced architectures and extensive training data to provide state-of-the-art functional group detection across all scenarios.",
   capabilities: [
-    "Trained with 100% vertical noise augmentation for resilience to signal artifacts",
-    "Outperforms baseline models under degraded conditions (e.g. industrial or legacy instruments)",
-    "Maintains prediction stability across varying signal-to-noise ratios",
-    "Recommended for production environments with uncontrolled acquisition conditions",
-    "Most tolerant to low-SNR data without sacrificing average precision (e.g. alkane: AP 0.98)",
+    "Best-in-class accuracy across all 37 functional groups",
+    "Handles complex mixtures, noisy spectra, and rare functional groups",
+    "Deep feature extraction for subtle spectral patterns",
+    "Ideal for research, quality control, and high-stakes analysis",
+    "Comprehensive analysis with detailed confidence scores",
   ],
 };
 
 const RaichuPage = () => {
   return (
-    <div className="pt-8 pr-15">
+    <div className="p-4">
+      <div className="flex items-center justify-between pb-4">
+        <h1 className="text-2xl font-bold text-yellow-600">
+          {RaichuModel.name} Model
+        </h1>
+        <Link href="/">
+          <Button
+            variant="outline"
+            className="gap-2 border border-yellow-300 bg-yellow-100 text-yellow-700 hover:bg-yellow-200"
+          >
+            <Home className="h-4 w-4" />
+            Back to Home
+          </Button>
+        </Link>
+      </div>
       <ModelUploader
-        model={raichuModel}
+        model={RaichuModel}
         onFileSelect={(file) => console.log(file)}
-      ></ModelUploader>
+      />
     </div>
   );
 };
