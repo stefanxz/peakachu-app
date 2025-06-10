@@ -49,15 +49,16 @@ export function ModelUploader({ model, onFileSelect }: ModelUploaderProps) {
 
       // Transform the API response into our AnalysisResult format
       const analysisResult: AnalysisResult = {
-        functionalGroups: data.predictions.map(
-          (prediction: number, index: number) => ({
-            name: `Group ${index + 1}`,
-            confidence: prediction,
+        functionalGroups: Object.keys(data.predictions).map(
+          (functionalGroup: number) => ({
+            name: functionalGroup,
+            confidence: data.predictions[functionalGroup],
           }),
         ),
-        modelConfidence: Math.max(...data.predictions),
+        modelConfidence: Math.max(...Object.values(data.predictions)),
       };
 
+      console.log(analysisResult.modelConfidence)
       setAnalysisResults(analysisResult);
     } catch (error) {
       console.error("Error analyzing file:", error);
