@@ -11,10 +11,8 @@ const RaichuModel: Model = {
     "Our most powerful model, combining advanced architectures and extensive training data to provide state-of-the-art functional group detection across all scenarios.",
   capabilities: [
     "Best-in-class accuracy across all 37 functional groups",
-    "Handles complex mixtures, noisy spectra, and rare functional groups",
-    "Deep feature extraction for subtle spectral patterns",
-    "Ideal for research, quality control, and high-stakes analysis",
-    "Comprehensive analysis with detailed confidence scores",
+    "Handles noisy spectra, shifted spectra, and is fine-tuned for propanol-ester artificial mixtures",
+    "Ideal for research and quality control in advanced applications",
   ],
 };
 

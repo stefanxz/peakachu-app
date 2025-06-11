@@ -9,13 +9,11 @@ import React from "react";
 const PikachuModel: Model = {
   name: "Pikachu",
   description:
-    "An advanced model trained on a diverse dataset of IR spectra to detect all 37 functional groups with high accuracy. Optimized for complex mixtures and noisy spectra.",
+    "An advanced model trained on a diverse dataset of IR spectra to detect all 37 functional groups with high accuracy.",
   capabilities: [
     "Covers all 37 functional groups with enhanced accuracy for complex cases",
-    "Robust performance on noisy and mixed spectra",
-    "Advanced feature extraction for subtle spectral patterns",
-    "Ideal for research-grade analysis and complex compound identification",
-    "Best suited for detailed analysis where accuracy is paramount",
+    "Mid-level performance on noisy spectra",
+    "Trained on shifted spectra",
   ],
 };
 
