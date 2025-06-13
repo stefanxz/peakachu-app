@@ -276,10 +276,11 @@ const ModelEvaluationDashboard: React.FC = () => {
     <div className="w-full">
       <div className="rounded-xl bg-white/95 shadow-lg">
         <h1 className="mb-2 text-center text-4xl font-bold text-yellow-600">
-          Functional Group Classification Model
+          Model Evaluation Dashboard
         </h1>
         <p className="mb-8 text-center text-xl text-gray-600">
-          Performance Analysis Dashboard - Spectroscopy ML Model Evaluation
+          Performace Evaluation Dashboard for our base model, before fine-tuning
+          on binary mixtures
         </p>
 
         {/* Metric Summary Cards */}
